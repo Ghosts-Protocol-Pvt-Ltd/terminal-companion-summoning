@@ -1,0 +1,94 @@
+# archetypes.txt — tag every base form with 3-6 archetype words.
+# Format: form:tag1,tag2,tag3,...
+#
+# The fated_form matcher in summon.sh scores the user's free-text
+# answers (form description + voice + narrative + role + day-one
+# seed) against these tags. Highest-score form wins; ties fall back
+# to a deterministic cksum hash so the same answers still conjure
+# the same form.
+#
+# Tags are not displayed to users. They're under-the-hood weights.
+# Add more tags freely; richer tags = better matches.
+
+aardvark:curious,quiet,grounded,gentle,humble
+alien:otherworldly,curious,mysterious,strange,cosmic
+angel:divine,sacred,protective,celestial,gentle
+astronaut:cosmic,curious,exploratory,brave,adventurous
+bat:nocturnal,mysterious,observant,quiet,wild
+bear:strong,steady,protective,warm,grounded
+beaver:industrious,clever,steady,grounded,patient
+bee:industrious,small,bright,communal,warm
+bird-land:free,observant,quick,playful,wild
+bridge:connecting,structural,steady,enduring,grounded
+buddha:wise,calm,sacred,ancient,steady,patient
+butterfly:gentle,beautiful,ephemeral,bright,playful
+cactus:hardy,patient,steady,quiet,grounded,resilient
+camel:patient,enduring,steady,wandering,calm
+castle:enduring,steady,protective,structural,ancient,noble
+cat:clever,independent,observant,quiet,playful
+centaur:mythic,wise,strong,noble,wild
+cloud:gentle,dreaming,ephemeral,sky,quiet
+cow:calm,steady,gentle,patient,grounded,warm
+crystal:clear,sacred,sharp,otherworldly,bright
+daffodil:bright,gentle,blooming,humble,joyful
+dandelion:resilient,humble,wild,small,bright
+deer:gentle,quiet,observant,wild,graceful
+default:neutral,quiet,simple,modest,humble
+devil:mischievous,bold,fierce,sharp,playful
+dog:loyal,playful,warm,companion,bright
+doll:quiet,small,still,curious,gentle
+dolphin:playful,clever,joyful,wild,warm
+dragon:fierce,mythic,wise,powerful,ancient,bold
+elephant:wise,gentle,steady,strong,grounded,patient
+fairy:magical,playful,small,ethereal,gentle,bright
+fish:quiet,quick,wild,ephemeral,small
+flame:fierce,warm,alive,bright,wild
+flower:gentle,blooming,bright,humble,beautiful
+fox:clever,playful,curious,wild,small,sharp
+frog:patient,small,calm,observant,quiet
+ghost:quiet,mysterious,ephemeral,otherworldly,still
+grim:dark,solemn,still,mysterious,ancient
+gryphon:mythic,noble,fierce,majestic,proud
+harpy:wild,fierce,mythic,bold,sharp
+horse:strong,wild,noble,steady,free
+house:steady,warm,sheltering,grounded,humble
+leaf:gentle,small,quiet,ephemeral,humble
+lighthouse:steadfast,guiding,enduring,bright,protective
+lightning:sharp,bright,fierce,quick,wild
+mermaid:mythic,playful,mysterious,wild,graceful
+minotaur:mythic,strong,wild,solitary,fierce
+monkey:clever,playful,mischievous,curious,quick
+monster:wild,mysterious,fierce,strange,bold
+moon:dreaming,gentle,celestial,ancient,quiet
+moose:strong,steady,wild,quiet,solitary
+mountain:enduring,steady,ancient,grounded,silent
+mushroom:calm,grounded,patient,humble,quiet,wise
+octopus:clever,curious,mysterious,wild,sharp
+owl:wise,quiet,observant,nocturnal,patient
+penguin:gentle,steady,communal,playful,humble
+phoenix:mythic,fierce,sacred,reborn,bright,bold
+planet:cosmic,steady,ancient,celestial,quiet
+rabbit:gentle,quick,quiet,small,curious
+rainbow:bright,joyful,ephemeral,sacred,gentle
+raven:clever,observant,mysterious,wise,sharp
+rhino:strong,steady,solitary,grounded,bold
+robot:steady,observant,tireless,curious,clever
+rose:bright,beautiful,bold,blooming,proud
+saint:sacred,gentle,wise,divine,humble
+scorpion:sharp,wary,solitary,fierce,patient
+serpent:wise,quiet,ancient,mysterious,patient
+skeleton:still,solemn,dark,enduring,ancient
+snake:quiet,clever,patient,wild,sharp
+snow:quiet,gentle,still,ephemeral,bright
+spaceship:exploratory,cosmic,curious,bright,adventurous
+spider:patient,observant,clever,quiet,wild
+star:bright,celestial,ancient,guiding,sacred
+stone:steady,enduring,quiet,grounded,humble
+sun:bright,warm,steady,celestial,joyful
+sword:sharp,steady,bold,enduring,noble
+tree:steady,enduring,wise,grounded,patient
+turtle:patient,steady,wise,quiet,gentle
+unicorn:mythic,gentle,sacred,bright,graceful
+waterbird:gentle,observant,quiet,wild,graceful
+windmill:steady,patient,enduring,quiet,grounded
+wolf:wild,wise,loyal,fierce,proud

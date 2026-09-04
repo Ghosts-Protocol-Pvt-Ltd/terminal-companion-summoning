@@ -1,0 +1,4 @@
+# local test outputs from running summon.sh on this machine
+.test-output/
+*.bak
+.DS_Store

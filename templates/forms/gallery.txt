@@ -1,0 +1,88 @@
+# keywords:filename:description
+# order matters: more specific patterns first (dragon before serpent, wolf before dog).
+# everything is lowercased before matching.
+dragon|wyrm|drake|draconic:dragon:flying dragon, wings spread, watchful
+phoenix|firebird|reborn|rising:phoenix:wings cresting, rising from ash
+gryphon|griffin|griffon|talons:gryphon:half-cat half-bird, watchful gaze
+mushroom|fungus|fungal|cap|spore|toadstool:mushroom:gilled cap, sparkles, eyes
+fox|vixen|kitsune:fox:perky ears, sly eyes, bushy tail
+cat|kitten|feline|kitty|tabby:cat:small face, whiskers, tail
+wolf|jackal|lupine:wolf:long muzzle, on guard
+dog|pup|puppy|hound|canine:dog:little head turned, tail up
+bear|cub|grizzly|ursa:bear:teddy face, paws spread
+horse|stallion|mare|steed|pony:horse:galloping across the field
+bat|nocturnal|chiroptera:bat:winged shape, eyes between wings
+owl|owlish|hoot:owl:wide round eyes, perched wings
+raven|crow|magpie|hawk|eagle|sparrow|falcon:raven:sleek body, beak, folded wings
+bird|wing|feather:raven:sleek body, beak, folded wings
+fairy|fae|sprite|pixie|nymph:fairy:radiant cross-shape, wings unfolded
+ghost|spirit|wraith|shade|phantom|wisp|haunt:ghost:wispy hem, hollow gaze
+alien|extraterrestrial|ufo|martian:alien:saucer drifting, two eyes peering
+stone|rock|boulder|cairn|pebble|granite|slab:stone:weathered, lichen-marked, still
+tree|forest|sapling|oak|willow|pine|fern|bonsai:tree:bonsai canopy, trunk, roots
+leaf|leaflet|frond|sprig:leaf:single leaf, veined and quiet
+star|cosmic|celestial|constellation|nebula:star:8-pointed star, balanced
+sun|solar|daybreak|dawn|sunrise|daylight:sun:radiating rays from a center
+moon|lunar|crescent|nightlight:moon:cute crescent, dotted with stars
+flame|fire|ember|spark|hearth|candle|cinder:flame:curling tongue, cinder dust
+lighthouse|beacon|tower|guide|harbor:lighthouse:tall tower, light on water
+serpent|snake|asp|cobra|viper:serpent:sinuous coil, watchful eye
+robot|machine|automaton|familiar|construct|golem|bot:robot:boxy, eye-lit, antenna
+crystal|gem|prism|shard:crystal:faceted prism, shimmer
+# --- gallery v2 expansions (2026-05-09) ---
+mermaid|merperson|siren|merfolk:mermaid:tail and tide, sea song
+monster|beast|creature|fiend|abomination:monster:teeth and claw, eyes glowing
+skeleton|skull|bones|skeletal:skeleton:bare bones, somber stand
+cactus|succulent|prickly|saguaro:cactus:desert spire, watching the sky
+daffodil|narcissus|trumpet:daffodil:trumpet bloom, spring herald
+dandelion|wishflower|seedhead:dandelion:wish-stem, breath-borne
+flower|bloom|blossom|petal|garden:flower:open petals, simple
+rose|thorn|romance|romantic:rose:five-petal bloom, thorned stem
+cloud|cumulus|nimbus|overcast:cloud:soft, drifting, quiet
+lightning|bolt|thunder|storm|strike:lightning:fork from the sky
+planet|sphere|orb|world|globe|saturn|jupiter:planet:ringed body, deep space
+rainbow|prism-arc|spectrum:rainbow:arc of seven, after rain
+snow|snowflake|winter|frost|flake:snow:six-fold crystal, hush
+astronaut|cosmonaut|spaceman|spacefarer:astronaut:helmeted, drifting
+bridge|span|crossing|viaduct:bridge:span over water
+castle|fortress|keep|citadel|stronghold:castle:tower and battlement
+house|home|cottage|hut|cabin|dwelling|abode:house:peaked roof, lit window
+mountain|peak|alpine|summit|ridge:mountain:jagged peak, snow-capped
+spaceship|rocket|capsule|shuttle:spaceship:fins and flame, ascending
+windmill|mill|sails|gristmill:windmill:turning sails, hill-set
+bird-land|sparrow|hummingbird|chickadee:bird-land:wings folded, perched
+camel|dromedary|caravan:camel:two-humped silhouette, desert-walker
+cow|bovine|cattle|bull|ox|calf:cow:patient, chewing, slow
+deer|stag|fawn|doe|elk|antler:deer:antlers branching, woods-bound
+dolphin|porpoise|cetacean:dolphin:arc through water, smiling
+elephant|tusk|trunk|pachyderm:elephant:trunk and ear-fan
+fish|salmon|trout|carp|swimmer:fish:scales and fin, river-bound
+frog|toad|amphibian|tadpole:frog:wide grin, lily-pad bound
+monkey|ape|primate|chimp|gibbon:monkey:long arms, mischievous
+moose|elk-bull|antlered:moose:massive antlers, north-woods stand
+rabbit|bunny|hare|cottontail:rabbit:long ears, alert
+scorpion|sting|tail-curl:scorpion:claws raised, tail arched
+spider|arachnid|web|weaver:spider:eight legs, patient on web
+unicorn|horned-horse|mythic-equine:unicorn:horn-bearing, dream-runner
+centaur|chiron|half-horse:centaur:bow drawn, hooves planted
+# --- gallery v2.2 expansions (2026-05-09) ---
+angel|seraph|cherub|archangel|guardian:angel:wings spread, halo above
+devil|imp|demon|fiend|hellish:devil:horns and tail, mischief
+turtle|tortoise|terrapin|shell:turtle:slow, shelled, patient
+snake|cobra|viper|adder|asp-snake:snake:coiled or arrow-bodied, watchful
+butterfly|monarch|lepidoptera:butterfly:wings open, fragile
+bee|honeybee|bumblebee|apis:bee:striped flier, busy
+octopus|cephalopod|kraken-small:octopus:eight arms, deep-sea
+penguin|antarctic|tuxedo-bird:penguin:waddler, snow-bound
+sword|blade|katana|saber|cutlass|broadsword:sword:steel and edge
+doll|figurine|toy|effigy:doll:button-eyed, watching
+grim|reaper|grim-reaper|death|scythe-bearer:grim:hooded, scythe in hand
+minotaur|maze-bull|labyrinth-beast:minotaur:bull-headed, axe-bearing
+harpy|harpie|winged-woman:harpy:taloned, screech-bringer
+buddha|buddhism|enlightenment|bodhi|monk-buddhist:buddha:meditation, lotus pose
+saint|saintly|holy-figure|martyr:saint:halo, robed
+beaver|dam-builder|wood-worker:beaver:flat tail, busy
+rhino|rhinoceros|rhinoceri|horn-bearer:rhino:two-horned, armored
+aardvark|antbear|orycteropus:aardvark:long-snouted, ant-eater
+waterbird|swan|duck|goose|pelican|stork:waterbird:long-necked, water-dwelling
+marsupial|kangaroo|koala|wallaby|opossum:marsupial:pouch-bearing, hopping or clinging

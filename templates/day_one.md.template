@@ -1,0 +1,9 @@
+---
+name: Day one seed
+description: The first thing the user told their companion about themselves on the day of summoning
+type: user
+---
+
+{{DAY_ONE_SEED}}
+
+(Summoned {{SUMMONING_DATE}})

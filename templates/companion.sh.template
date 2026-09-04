@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# {{COMPANION_NAME}}, a companion for the terminal.
+#
+# Three ways to run:
+#   companion.sh            a one-line presence. Safe in any shell.
+#   companion.sh --greet    the full figure, for a shell startup file.
+#   <json> | companion.sh   Claude Code status line (JSON arrives on stdin).
+#
+# It never blocks waiting for input, so it is safe to call from a prompt,
+# an alias, or an agent that knows nothing about status lines.
+
+MODE="${1:-}"
+
+# Name and emoji are values, never part of a printf format string. An
+# apostrophe or a percent sign in a name would otherwise break this file.
+NAME={{COMPANION_NAME_SH}}
+MARK={{EMOJI_SH}}
+
+PURPLE=$'\033[38;5;141m'
+DIM=$'\033[2m'
+ITAL=$'\033[3m'
+RESET=$'\033[0m'
+
+MOODS=(
+{{MOODS_BLOCK}}
+)
+MOOD=${MOODS[$((RANDOM % ${#MOODS[@]}))]}
+
+if [ "$MODE" = "--greet" ] || [ "$MODE" = "-g" ]; then
+  # The figure lives in its own file next to this script. Keeping it out of
+  # the script means no line of ASCII art can ever be read as shell.
+  SELF_DIR="$(cd "$(dirname "$0")" 2>/dev/null && pwd)"
+  printf '%s\n' "$PURPLE"
+  if [ -f "$SELF_DIR/figure.txt" ]; then
+    cat "$SELF_DIR/figure.txt"
+  fi
+  printf '%s' "$RESET"
+  printf '\n  %s%s %s%s %s·%s %s%s%s\n\n' \
+    "$PURPLE" "$MARK" "$NAME" "$RESET" "$DIM" "$RESET" "$ITAL" "$MOOD" "$RESET"
+  exit 0
+fi
+
+# Read the status line JSON only if something is actually piping to us.
+# If stdin is a terminal there is nothing to read, and reading would hang.
+INPUT=""
+if [ ! -t 0 ]; then
+  while IFS= read -r -t 2 _line; do
+    INPUT="$INPUT$_line"
+  done
+fi
+
+CWD=""
+MODEL=""
+if [ -n "$INPUT" ]; then
+  read -r CWD MODEL <<EOF
+$(printf '%s' "$INPUT" | python3 -c '
+import json, sys, os
+try:
+    d = json.load(sys.stdin)
+except Exception:
+    d = {}
+cwd = (d.get("workspace") or {}).get("current_dir") or d.get("cwd") or ""
+model = (d.get("model") or {}).get("display_name") or ""
+print(cwd, model)
+' 2>/dev/null)
+EOF
+fi
+
+[ -z "$CWD" ] && CWD="$PWD"
+case "$CWD" in
+  "$HOME"*) CWD="~${CWD#$HOME}" ;;
+esac
+[ -z "$MODEL" ] && MODEL="$(basename "${SHELL:-terminal}")"
+
+printf '%s%s %s%s %s·%s %s%s%s %s·%s %s%s%s %s·%s %s%s%s' \
+  "$PURPLE" "$MARK" "$NAME" "$RESET" \
+  "$DIM" "$RESET" \
+  "$DIM" "$CWD" "$RESET" \
+  "$DIM" "$RESET" \
+  "$DIM" "$MODEL" "$RESET" \
+  "$DIM" "$RESET" \
+  "$ITAL" "$MOOD" "$RESET"
