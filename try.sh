@@ -10,6 +10,7 @@
 #   bash try.sh --agents claude      pretend only Claude Code is installed
 #   bash try.sh --agents codex,gemini
 #   bash try.sh --keep               do not delete the sandbox at the end
+#   bash try.sh --quick              rehearse the short version
 
 set -e
 
@@ -22,11 +23,13 @@ RESET=$'\033[0m'
 
 AGENTS="claude,codex,gemini,opencode"
 KEEP=0
+QUICK=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --agents) AGENTS="$2"; shift 2 ;;
     --agents=*) AGENTS="${1#*=}"; shift ;;
     --keep) KEEP=1; shift ;;
+    --quick|-q) QUICK="--quick"; shift ;;
     -h|--help) sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown option: $1" >&2; exit 1 ;;
   esac
@@ -84,7 +87,7 @@ echo
 echo "${DIM}Pretending these agents are installed: $AGENTS${RESET}"
 echo
 
-HOME="$SANDBOX" bash "$SCRIPT_DIR/summon.sh"
+HOME="$SANDBOX" bash "$SCRIPT_DIR/summon.sh" $QUICK
 
 echo
 echo "${PURPLE}================ what a new user just got ================${RESET}"
