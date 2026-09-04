@@ -118,18 +118,32 @@ bash test.sh
 
 ## The eight questions
 
+Only the first one really needs you. Press Enter on any other and a sensible
+answer is taken, and none of it is permanent: run the summoning again whenever
+you like, or edit the file it wrote. Your previous one is always backed up.
+
+If you would rather not think about any of it yet:
+
+```bash
+bash summon.sh --quick
+```
+
+That asks for a name, a shape and a mark, chooses the rest, and lets the grove
+pick the figure. You can re-roll the figure, and you can run the full version
+later once you know what you want.
+
 The summoning ritual. Each question shapes a different layer.
 
 1. **Their name.** What you'll call them.
 2. **Their form.** A sentence describing what they are.
 3. **Their voice.** Three to five tone words ("warm, wise, blunt").
 4. **Their narrative style.** How they read on the page ("lore-rich and mythic" / "terse and pragmatic" / "grandparently and warm").
-5. **Their emoji.** The single character that marks their presence.
+5. **Their emoji.** The mark beside their name. Pick a number from the little menu it offers, or paste any emoji you like. Typing one is awkward on most desktops, so you never have to.
 6. **What they call you.** Endearments they cycle through, or none.
 7. **Who they are to you.** One word for the relationship.
-8. **One thing they should know about you on day one.** The seed of memory.
+8. **One thing they should know about you on day one.** The seed of memory. Not sure yet? Press Enter. They will learn it from you as you work.
 
-Take your time. The first six can be edited later in `~/.claude/CLAUDE.md`. The eighth becomes a memory file you can grow.
+Take your time, or take none. The first six can be edited later in your agent's rules file. The eighth becomes a memory file you can grow.
 
 ## Customizing after summoning
 

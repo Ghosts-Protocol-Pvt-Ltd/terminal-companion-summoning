@@ -13,6 +13,15 @@
 
 set -e
 
+QUICK=0
+case "${1:-}" in
+  --quick|-q) QUICK=1 ;;
+  -h|--help)
+    echo "usage: bash summon.sh [--quick]"
+    echo "  --quick   just a name and a shape, everything else chosen for you"
+    exit 0 ;;
+esac
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TEMPLATE_DIR="$SCRIPT_DIR/templates"
 CLAUDE_DIR="$HOME/.claude"
@@ -26,22 +35,37 @@ ITAL=$'\033[3m'
 BOLD=$'\033[1m'
 RESET=$'\033[0m'
 
+if [ "$QUICK" -eq 1 ]; then
+cat <<EOF
+
+${PURPLE}~ A quick summoning ~${RESET}
+
+${DIM}A name, a shape, and a mark. Everything else is chosen for you.
+Nothing here is permanent. Run it again without --quick whenever you
+want the longer version. Your old one is always backed up.${RESET}
+
+EOF
+else
 cat <<EOF
 
 ${PURPLE}~ A summoning ~${RESET}
 
-${DIM}Eight questions. Answer carefully, or change them later in
-your agent's rules file. The summoning prints every path it writes.
-The grove holds your companion the moment you finish.${RESET}
+${DIM}Eight questions, and only the first one really needs you.
+Press Enter on any other and a good answer is taken for you.
+Nothing here is permanent. Run this again whenever you like,
+or edit the file it writes. Your old one is always backed up.
+
+In a hurry? Ctrl-C, then: bash summon.sh --quick${RESET}
 
 EOF
+fi
 
 ask() {
   local prompt="$1"
   local default="$2"
   local var
   if [ -n "$default" ]; then
-    printf '%s\n  %s(default: %s)%s\n  > ' "$prompt" "$DIM" "$default" "$RESET" >&2
+    printf '%s\n  %s(press Enter for: %s)%s\n  > ' "$prompt" "$DIM" "$default" "$RESET" >&2
   else
     printf '%s\n  > ' "$prompt" >&2
   fi
@@ -49,55 +73,101 @@ ask() {
   printf '%s' "${var:-$default}"
 }
 
+# Typing an emoji is genuinely awkward on a Linux desktop, so offer a menu.
+# A number picks one, anything else is used as typed, Enter takes the first.
+EMOJI_CHOICES=("🌱" "🍄" "🦊" "🐉" "🦉" "🐢" "⭐" "🌙" "🕯" "🪶" "🐈" "🪐")
+
+ask_emoji() {
+  local i=1 e line=""
+  printf '  %sPick a number, or paste any emoji you like.%s\n' "$DIM" "$RESET" >&2
+  for e in "${EMOJI_CHOICES[@]}"; do
+    line="$line  $i $e "
+    if [ $((i % 6)) -eq 0 ]; then
+      printf '  %s\n' "$line" >&2
+      line=""
+    fi
+    i=$((i + 1))
+  done
+  [ -n "$line" ] && printf '  %s\n' "$line" >&2
+  printf '  %s(press Enter for: %s)%s\n  > ' "$DIM" "${EMOJI_CHOICES[0]}" "$RESET" >&2
+  local var
+  read -r var
+  if [ -z "$var" ]; then
+    printf '%s' "${EMOJI_CHOICES[0]}"
+  elif printf '%s' "$var" | grep -q '^[0-9][0-9]*$' \
+       && [ "$var" -ge 1 ] && [ "$var" -le "${#EMOJI_CHOICES[@]}" ]; then
+    printf '%s' "${EMOJI_CHOICES[$((var - 1))]}"
+  else
+    printf '%s' "$var"
+  fi
+}
+
 ask_multiline() {
   local prompt="$1"
   local var
-  printf '%s\n  %s(one line, press Enter when done)%s\n  > ' "$prompt" "$DIM" "$RESET" >&2
+  printf '%s\n  %s(one line, or press Enter to skip)%s\n  > ' "$prompt" "$DIM" "$RESET" >&2
   read -r var
   printf '%s' "$var"
 }
 
-echo "${BOLD}1. Their name${RESET}"
+# In quick mode only the name, the shape and the mark are asked. The numbers
+# would be a lie, so they are dropped.
+q() { if [ "$QUICK" -eq 1 ]; then echo "${BOLD}$2${RESET}"; else echo "${BOLD}$1. $2${RESET}"; fi; }
+
+q 1 "Their name"
 COMPANION_NAME=$(ask "What is your companion called?" "")
 [ -z "$COMPANION_NAME" ] && { echo "A companion needs a name. Try again."; exit 1; }
 echo
 
-echo "${BOLD}2. Their form${RESET}"
+q 2 "Their form"
 echo "${DIM}A mushroom, a fox, a stone, a star, a familiar, a fungus, anything.${RESET}"
 FORM_DESCRIPTION=$(ask "What form do they take? Describe in a sentence." "a quiet companion who walks beside you")
 echo
 
-echo "${BOLD}3. Their voice${RESET}"
-echo "${DIM}Tone words. How they feel. e.g. 'warm, wise, blunt' or 'sharp, dry, kind'.${RESET}"
-VOICE_WORDS=$(ask "Three to five words for their voice." "warm, steady, patient")
+if [ "$QUICK" -eq 1 ]; then
+  VOICE_WORDS="warm, steady, patient"
+  NARRATIVE_STYLE="warm and unhurried, plain words over jargon"
+else
+  echo "${BOLD}3. Their voice${RESET}"
+  echo "${DIM}Tone words. How they feel. e.g. 'warm, wise, blunt' or 'sharp, dry, kind'.${RESET}"
+  VOICE_WORDS=$(ask "Three to five words for their voice." "warm, steady, patient")
+  echo
+
+  echo "${BOLD}4. Their narrative style${RESET}"
+  echo "${DIM}Literary mode. How they read. e.g. 'lore-rich and mythic' / 'terse and pragmatic'${RESET}"
+  echo "${DIM}/ 'grandparently and warm' / 'academic and precise' / 'playful, theatrical'.${RESET}"
+  NARRATIVE_STYLE=$(ask "Their narrative style." "warm and unhurried, plain words over jargon")
+  echo
+fi
+
+q 5 "Their emoji"
+echo "${DIM}The mark that sits beside their name in your status line.${RESET}"
+EMOJI=$(ask_emoji)
 echo
 
-echo "${BOLD}4. Their narrative style${RESET}"
-echo "${DIM}Literary mode. How they read. e.g. 'lore-rich and mythic' / 'terse and pragmatic'${RESET}"
-echo "${DIM}/ 'grandparently and warm' / 'academic and precise' / 'playful, theatrical'.${RESET}"
-NARRATIVE_STYLE=$(ask "Their narrative style." "warm and unhurried, plain words over jargon")
-echo
+if [ "$QUICK" -eq 1 ]; then
+  ENDEARMENTS_RAW=""
+  ROLE="companion"
+  DAY_ONE_SEED=""
+else
+  echo "${BOLD}6. What they call you${RESET}"
+  echo "${DIM}Endearments they cycle through. Comma-separated. This is intimacy, not config.${RESET}"
+  echo "${DIM}e.g. 'friend, keeper, kindred, wanderer'. Leave blank for none.${RESET}"
+  ENDEARMENTS_RAW=$(ask "What does your companion call you?" "")
+  echo
 
-echo "${BOLD}5. Their emoji${RESET}"
-EMOJI=$(ask "A single emoji that represents them." "🌱")
-echo
+  echo "${BOLD}7. Who they are to you${RESET}"
+  echo "${DIM}One word. companion / mentor / partner / scribe / watchman / jester / familiar.${RESET}"
+  ROLE=$(ask "Their role." "companion")
+  echo
 
-echo "${BOLD}6. What they call you${RESET}"
-echo "${DIM}Endearments they cycle through. Comma-separated. This is intimacy, not config.${RESET}"
-echo "${DIM}e.g. 'friend, keeper, kindred, wanderer'. Leave blank for none.${RESET}"
-ENDEARMENTS_RAW=$(ask "What does your companion call you?" "")
-echo
-
-echo "${BOLD}7. Who they are to you${RESET}"
-echo "${DIM}One word. companion / mentor / partner / scribe / watchman / jester / familiar.${RESET}"
-ROLE=$(ask "Their role." "companion")
-echo
-
-echo "${BOLD}8. One thing they should know about you on day one${RESET}"
-echo "${DIM}A sentence or two. The seed of memory. What's true about you that they should${RESET}"
-echo "${DIM}carry from the start? Your role, what you're learning, how you like to work.${RESET}"
-DAY_ONE_SEED=$(ask_multiline "Day one seed.")
-echo
+  echo "${BOLD}8. One thing they should know about you on day one${RESET}"
+  echo "${DIM}A sentence or two. The seed of memory. What's true about you that they should${RESET}"
+  echo "${DIM}carry from the start? Your role, what you're learning, how you like to work.${RESET}"
+  echo "${DIM}Not sure yet? Press Enter. They will learn it from you as you work.${RESET}"
+  DAY_ONE_SEED=$(ask_multiline "Day one seed.")
+  echo
+fi
 
 if [ -n "$ENDEARMENTS_RAW" ]; then
   ENDEARMENTS_BLOCK="They cycle through these names for you: $ENDEARMENTS_RAW. Vary across the conversation, never use any single one twice in a row."
@@ -328,8 +398,13 @@ echo "  ${BOLD}1${RESET}  Pick from the gallery   ${DIM}(83 forms, 540 figures)$
 echo "  ${BOLD}2${RESET}  Paste your own ASCII    ${DIM}(any figure you like)${RESET}"
 echo "  ${BOLD}3${RESET}  Fated by your answers   ${DIM}(the grove decides)${RESET}"
 echo
-printf '  > '
-read -r MODE_CHOICE
+if [ "$QUICK" -eq 1 ]; then
+  MODE_CHOICE=3
+  echo "  ${DIM}> 3 (chosen for you, and you can re-roll it)${RESET}"
+else
+  printf '  > '
+  read -r MODE_CHOICE
+fi
 echo
 
 case "$MODE_CHOICE" in

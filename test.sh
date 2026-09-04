@@ -43,10 +43,14 @@ new_home() {
 
 # Run the summoning with the given answers. env -i keeps the host's installed
 # agents from being detected, so each test controls its own world.
-summon() { # home, answers
-  printf '%b' "$2" | env -i HOME="$1" PATH="/usr/bin:/bin" TERM=dumb \
-    bash "$SUMMON" > "$1/summon.log" 2>&1
+summon() { # home, answers, [flags...]
+  local home="$1" answers="$2"; shift 2
+  printf '%b' "$answers" | env -i HOME="$home" PATH="/usr/bin:/bin" TERM=dumb \
+    bash "$SUMMON" "$@" > "$home/summon.log" 2>&1
 }
+
+# The emoji that ended up in the status line, for the picker tests.
+chosen_mark() { grep -o 'will show .* at the bottom' "$1/summon.log" | awk '{print $3}'; }
 
 memdir() { printf '%s/.claude/projects/%s/memory' "$1" "$(printf '%s' "$1" | tr '/' '-')"; }
 
@@ -161,6 +165,26 @@ ck "1" "$(printf '%s' "$J" | env -i HOME="$H" PATH="/usr/bin:/bin" bash "$H/.com
 ck "0" "$?" "status line never hangs waiting for input"
 env -i HOME="$H" PATH="/usr/bin:/bin" timeout 5 bash "$H/.companion/companion.sh" --greet >/dev/null 2>&1
 ck "0" "$?" "--greet works on its own"
+
+echo
+echo "it does not demand that you have opinions yet"
+H=$(new_home claude); summon "$H" 'Fern\na stone fox\n3\n\n' --quick
+ck "0" "$?" "--quick completes on three answers"
+ck "y" "$(test -f "$H/.claude/CLAUDE.md" && echo y)" "  and still writes a persona"
+ck "1" "$(grep -c 'You are their companion,' "$H/.claude/CLAUDE.md")" "  with the default role filled in"
+ck "1" "$(grep -c 'warm, steady, patient' "$H/.claude/CLAUDE.md")" "  and the default voice"
+
+H=$(new_home claude); summon "$H" "Fern\nfox\n\n\n" --quick
+ck "0" "$?" "pressing Enter through everything still works"
+
+echo
+echo "the emoji can be picked, not just typed"
+H=$(new_home claude); summon "$H" 'Fern\nfox\n6\n\n' --quick
+ck "🐢" "$(chosen_mark "$H")" "a number picks from the menu"
+H=$(new_home claude); summon "$H" 'Fern\nfox\n🐙\n\n' --quick
+ck "🐙" "$(chosen_mark "$H")" "a pasted emoji is used as given"
+H=$(new_home claude); summon "$H" 'Fern\nfox\n\n\n' --quick
+ck "🌱" "$(chosen_mark "$H")" "Enter takes the default"
 
 echo
 echo "portability"
