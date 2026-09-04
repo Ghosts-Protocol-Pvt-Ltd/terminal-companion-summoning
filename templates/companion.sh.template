@@ -44,8 +44,13 @@ fi
 # If stdin is a terminal there is nothing to read, and reading would hang.
 INPUT=""
 if [ ! -t 0 ]; then
-  while IFS= read -r -t 2 _line; do
+  # The `|| [ -n "$_line" ]` keeps the final line when the sender does not
+  # end its output with a newline. Without it that line is silently dropped
+  # and the status line quietly shows the wrong directory and model.
+  _line=""
+  while IFS= read -r -t 2 _line || [ -n "$_line" ]; do
     INPUT="$INPUT$_line"
+    _line=""
   done
 fi
 

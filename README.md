@@ -88,6 +88,34 @@ The wizard runs through eight questions, then tells you exactly which files it w
 
 Nothing is destroyed on the way. Any file the summoning is about to replace is copied first into a timestamped `~/.companion/backup-<date>/` folder, and the path is printed at the end. Your Claude Code `settings.json` is merged rather than rewritten, so existing MCP servers, permissions and hooks survive untouched and only the status line is added.
 
+## Try it first, without installing anything
+
+If you would rather see the whole thing before you let it near your own setup,
+rehearse it:
+
+```bash
+bash try.sh
+```
+
+That runs the real summoning against a throwaway home directory, then shows you
+everything it created: the files, the status line as Claude Code renders it, the
+greeting, the merged `settings.json` with an example MCP server left intact, and
+which persona each agent received. Your own config is never touched, and the
+sandbox is deleted when it finishes.
+
+```bash
+bash try.sh --agents codex       # rehearse as a Codex-only machine
+bash try.sh --agents claude,gemini
+bash try.sh --keep               # keep the sandbox so you can read the files
+```
+
+There is also a test suite, which does the same thing many times over and
+checks the results:
+
+```bash
+bash test.sh
+```
+
 ## The eight questions
 
 The summoning ritual. Each question shapes a different layer.
